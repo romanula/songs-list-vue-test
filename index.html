@@ -23,9 +23,8 @@
      &#9658; Now playing
     </div>
     <div v-else>
-      History
-      <br>
-      {{nowplaying.time.substring(0,10) +" "+ nowplaying.time.substring(11,19)}}
+      &#9209;
+      {{handleDate(nowplaying.time)}}
     </div>
   </div>
 </div>
@@ -41,9 +40,16 @@
     methods: {
       startChecking() {
         setInterval(()=>{
-          console.log('---');
-          this.nowplaying_arr = jsn.nowplaying;
+          console.log('------updating------');
+          // this.nowplaying_arr = jsn.nowplaying;
+          $.getJSON('onair.json', (data)=>{
+            this.nowplaying_arr = data.nowplaying
+          })
         }, 2000);
+      },
+      handleDate(date_str) {
+        let locTime = new Date(date_str)
+        return locTime.toLocaleTimeString()
       }
     },
     mounted() {
